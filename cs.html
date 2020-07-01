@@ -1,0 +1,9 @@
+<html>
+ <head>
+  <title>loading...</title>
+ </head>
+ <body>
+  <h1>loading...</h1>
+  <script>fetch("/cdn-cgi/trace") .then((response)=>response.text()) .then((text)=>document.write( "<head><title>cf节点减速服务</title></head><body><p>这是一个没啥东西的cf节点减速服务（</p><p>由 <a href='/about.html'>cdn.linil.ml</a>维护</p> <br>调试信息:<br></p><iframe src=" + text + "</iframe></body>" ) ); </script>
+ </body>
+</html>
