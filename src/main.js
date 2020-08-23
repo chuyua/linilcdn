@@ -48,7 +48,7 @@ function networktest() {
     let starttime = (Math.round(performance.now()*100)/100/1000).toFixed(2);
     let endtime = null;
     let time = null;
-    fetch("/generate_204").then(
+    fetch("https://cf.186526.xyz/generate_204").then(
         (e)=>{
             if (e.status === 204) {
                 return e;
