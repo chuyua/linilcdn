@@ -70,6 +70,42 @@ function networktest() {
     })
     .catch((e)=>{console.error(e);});
 }
-  <br />cloudflare缓存情况: &quot;+a.cache_status.replace(&quot;HIT&quot;,&quot;命中&quot;).replace(&quot;DYNAMIC&quot;,&quot;动态&quot;).replace(&quot;BYPASS&quot;,&quot;略过&quot;).replace(&quot;EXPIRED&quot;,&quot;过期&quot;).replace(&quot;MISS&quot;,&quot;未命中&quot;),e.append(n),maindiv.append(e)}).catch(a=&gt;{})}async function getdns(){let a=create(&quot;div&quot;);a.append(create(&quot;h3&quot;).innerHTML=&quot;IPV4解析情况&quot;),await fetch(&quot;https://dns.alidns.com/resolve?name=cf.186526.xyz&amp;type=1&quot;).then(a=&gt;{if(200===a.status)return a;throw&quot;Can't fetch DNS resolve&quot;}).then(a=&gt;a.json()).then(a=&gt;{let e=create(&quot;ul&quot;);for(let n in a.Answer)b=create(&quot;li&quot;),5===a.Answer[n].type?b.innerHTML=&quot;请求被分配到 &quot;+a.Answer[n].data:b.innerHTML=&quot;DNS解析结果: &quot;+a.Answer[n].data,e.append(b);return b=create(&quot;li&quot;),b.innerHTML=&quot;以上资源来自阿里云DOH 数据可能不准确&quot;,e.append(b),e}).then(e=&gt;{a.append(e)}).catch(a=&gt;{}),a.append(create(&quot;h3&quot;).innerHTML=&quot;IPV6解析情况&quot;),await fetch(&quot;https://dns.alidns.com/resolve?name=cf.186526.xyz&amp;type=28&quot;).then(a=&gt;{if(200===a.status)return a;throw&quot;Can't fetch DNS resolve&quot;}).then(a=&gt;a.json()).then(a=&gt;{let e=create(&quot;ul&quot;);for(let n in a.Answer)b=create(&quot;li&quot;),5===a.Answer[n].type?b.innerHTML=&quot;请求被分配到 &quot;+a.Answer[n].data:b.innerHTML=&quot;DNS解析结果: &quot;+a.Answer[n].data,e.append(b);return b=create(&quot;li&quot;),b.innerHTML=&quot;以上资源来自阿里云DOH 数据可能不准确&quot;,e.append(b),e}).then(e=&gt;{a.append(e)}).catch(a=&gt;{}),maindiv.append(a)}async function buildpage(){let a=create(&quot;h2&quot;);a.innerHTML=&quot;
- </body>
-</html>
+async function getdns() {
+    let dns = null;
+    fetch("https://dns.alidns.com/resolve?name=cdn.linil.ml").then((t)=>{
+        if (t.status === 200) {
+            return t;
+        } else {
+            throw "Can't fetch DNS resolve";
+        }
+    }).then((t)=>{
+        const dns=t.json();
+        return dns;
+    }).then((t)=>{
+        let a = create("ul");
+        for(let i in t.Answer){
+            b = create("li");
+            if(t.Answer[i].type === 5){
+                b.innerHTML = "请求被分配到 "+t.Answer[i].data;
+            }else{
+                b.innerHTML = "DNS解析结果: "+t.Answer[i].data;
+            }
+            a.append(b);
+        }
+        b = create("li");
+        b.innerHTML="以上资源来自阿里云doh 数据可能不准确";
+        a.append(b);
+        return a;
+    }).then((t)=>{
+        maindiv.append(t);
+    })
+    .catch((r)=>{console.error(r);});
+}
+async function buildpage() {
+    let t = create("p");
+    maindiv.append(t);
+    $("title").innerHTML = "啥东西都没有的东西";
+    await networktest();
+    await getdns();
+    cdninfo();
+}
