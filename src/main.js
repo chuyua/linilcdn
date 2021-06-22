@@ -70,28 +70,36 @@ function networktest() {
     })
     .catch((e)=>{console.error(e);});
 }
-async
-function getdns() {
-    let a = create("div");
-    a.append(create("h3").innerHTML = "IPV4解析情况"), await fetch("https://dns.alidns.com/resolve?name=cf.186526.xyz&type=1").then(a => {
-        if (200 === a.status) return a;
-        throw "Can't fetch DNS resolve"
-    }).then(a => a.json()).then(a => {
-        let e = create("ul");
-        for (let n in a.Answer) b = create("li"), 5 === a.Answer[n].type ? b.innerHTML = "请求被分配到 " + a.Answer[n].data : b.innerHTML = "DNS解析结果: " + a.Answer[n].data, e.append(b);
-        return b = create("li"), b.innerHTML = "以上资源来自阿里云DOH 数据可能不准确", e.append(b), e
-    }).then(e => {
-        a.append(e)
-    }).catch(a => {}), a.append(create("h3").innerHTML = "IPV6解析情况"), await fetch("https://dns.alidns.com/resolve?name=cf.186526.xyz&type=28").then(a => {
-        if (200 === a.status) return a;
-        throw "Can't fetch DNS resolve"
-    }).then(a => a.json()).then(a => {
-        let e = create("ul");
-        for (let n in a.Answer) b = create("li"), 5 === a.Answer[n].type ? b.innerHTML = "请求被分配到 " + a.Answer[n].data : b.innerHTML = "DNS解析结果: " + a.Answer[n].data, e.append(b);
-        return b = create("li"), b.innerHTML = "以上资源来自阿里云DOH 数据可能不准确", e.append(b), e
-    }).then(e => {
-        a.append(e)
-    }).catch(a => {}), maindiv.append(a)
+async function getdns() {
+    let dns = null;
+    fetch("https://dns.alidns.com/resolve?name=cdn.linil.ml").then((t)=>{
+        if (t.status === 200) {
+            return t;
+        } else {
+            throw "Can't fetch DNS resolve";
+        }
+    }).then((t)=>{
+        const dns=t.json();
+        return dns;
+    }).then((t)=>{
+        let a = create("ul");
+        for(let i in t.Answer){
+            b = create("li");
+            if(t.Answer[i].type === 5){
+                b.innerHTML = "请求被分配到 "+t.Answer[i].data;
+            }else{
+                b.innerHTML = "DNS解析结果: "+t.Answer[i].data;
+            }
+            a.append(b);
+        }
+        b = create("li");
+        b.innerHTML="以上资源来自阿里云doh 数据可能不准确";
+        a.append(b);
+        return a;
+    }).then((t)=>{
+        maindiv.append(t);
+    })
+    .catch((r)=>{console.error(r);});
 }
 async function buildpage() {
     let t = create("p");
