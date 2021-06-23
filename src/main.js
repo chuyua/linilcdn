@@ -72,7 +72,7 @@ function networktest() {
 async function getdns() {
     let a = create("div");
     a.append(create("h3").innerHTML = "IPV4解析情况"),
-    await fetch("http://119.29.29.29/d?dn=cdn.linil.ml").then(a=>{
+    await fetch("https://dns.alidns.com/resolve?name=cdn.linil.ml").then(a=>{
         if (200 === a.status)
             return a;
         throw "Can't fetch DNS resolve"
