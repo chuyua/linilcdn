@@ -8,7 +8,7 @@
 
 欢迎接入 http://cdn.linil.ml
 
-（本服务的关于页托管于Coding Pages）
+（本服务的关于页托管于cloudflare Pages）
 菜鸡白给写的页面（
 
 CopyRight @ 与君 2020
